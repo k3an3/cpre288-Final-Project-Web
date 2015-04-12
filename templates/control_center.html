@@ -10,7 +10,7 @@
 
     {% if error %}
     <div class="alert alert-danger" role="alert">
-        <strong>Oh snap!</strong> Change a few things up and try submitting again.
+        <strong>Oh snap!</strong> {{ error }}
     </div>
     {% elif success %}
     <div class="alert alert-success" role="alert">
@@ -25,16 +25,53 @@
     <br>
     {% endif %}
     <div class="page-header">
-        <h1>Buttons</h1>
+        <h1>Controls</h1>
     </div>
-
-    <p>
-        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-    </p>
-
+    <form class="bs-example bs-example-form" method="post">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="...">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default">Forward</button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li><a href="#">Forward</a></li>
+                            <li><a href="#">Reverse</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="...">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default">Clockwise</button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li><a href="#">Clockwise</a></li>
+                            <li><a href="#">Counterclockwise</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+             <p>
+        <button type="button" class="btn btn-default">Default</button>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button type="button" class="btn btn-warning">Warning</button>
+        <button type="button" class="btn btn-danger">Danger</button>
+        <button type="button" class="btn btn-link">Link</button>
+      </p>
+        </div>
+    </form>
     <div class="page-header">
         <h1>Data</h1>
     </div>
@@ -51,9 +88,11 @@
                 <tbody>
                     {% for item in history_list %}
                     <tr>
-                        <th>{{ item.time }}</th>
-                        <th>{{ item.text }}</th>
-                        <th>{{ item.result }}</th>
+                        <th>{{ item.time.strftime('%a %H:%M:%S')}}</th>
+                        <th>{{ item.name }}</th>
+                        <th><span class="label label-{% if item.label == 'error' %}danger">Error
+                            {% elif item.label == 'success' %}success">OK{% elif item.label == 'warning' %}warning">Event{% else %}info">Info{% endif %}
+                            </span>&nbsp;{{ item.value }}</th>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -61,9 +100,9 @@
         </div>
         <div class="col-md-6">
             <ul class="nav nav-pills">
-                <li role="presentation" class="active"><a href="scan">Scan</a></li>
-                <li role="presentation"><a href="map">Map</a></li>
-                <li role="presentation"><a href="video">Video</a></li>
+                <li role="presentation" class="active"><a href="#scan">Scan</a></li>
+                <li role="presentation"><a href="#map">Map</a></li>
+                <li role="presentation"><a href="#video">Video</a></li>
             </ul>
 
         </div>

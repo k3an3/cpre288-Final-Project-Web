@@ -1,20 +1,39 @@
-from flask import Flask, render_template, request
-from utils import *
+from flask import Flask, render_template, request, jsonify
 from models import db, Result, Object, Robot
+import sys
+
+sys.path.append('PyRobot')
+from command import *
+from status import *
+from receiver import DebugReceiver
+from sender import DebugSender
 
 app = Flask(__name__)
-global ser
+global myreceiver
+global mysender
 
 @app.route('/', methods=['POST', 'GET'])
 def control_center():
   db.connect()
-  event = check_sensor_event()
   if request.method == 'POST':
     if not ser.isOpen():
       error = "The serial connection is not established"
   history_list = Result.select().order_by(Result.time.desc())
   db.close()
   return render_template('control_center.html', **locals())
+
+@app.route('/api/getstatus')
+def get_status():
+    statuses = []
+    while myreciever.isNewStatusAvailable():
+        s = myreciever.getStatus()
+        statuses.append({
+                         'type' : type(s).__name__,
+                         'id' : s.command.command_id,
+                         'actual' : s.distance_actually_moved,
+                         'reason' : s.abort_reason,
+                         })
+    return jsonify(results=statuses)
 
 @app.before_request
 def csrf_protect():
@@ -31,6 +50,7 @@ def generate_csrf_token():
 app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
 if __name__ == '__main__':
-  ser = serial_init()
+  mysender = DebugSender
+  myreceiver = DebugReceiver(mysender)
   app.debug = True
   app.run()

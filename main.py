@@ -14,26 +14,23 @@ global mysender
 
 @app.route('/', methods=['POST', 'GET'])
 def control_center():
-  db.connect()
   if request.method == 'POST':
     if not ser.isOpen():
       error = "The serial connection is not established"
-  history_list = Result.select().order_by(Result.time.desc())
-  db.close()
   return render_template('control_center.html', **locals())
 
 @app.route('/api/getstatus')
 def get_status():
     statuses = []
-    while myreciever.isNewStatusAvailable():
-        s = myreciever.getStatus()
+    while myreceiver.isNewStatusAvailable():
+        s = myreceiver.getStatus()
         statuses.append({
                          'type' : type(s).__name__,
                          'id' : s.command.command_id,
                          'actual' : s.distance_actually_moved,
                          'reason' : s.abort_reason,
                          })
-    return jsonify(results=statuses)
+    return jsonify(statuses=statuses if statuses else None)
 
 @app.before_request
 def csrf_protect():

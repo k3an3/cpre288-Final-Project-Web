@@ -107,6 +107,27 @@
 
         </div>
     </div>
+</div>
+<script>
+    var req;
+    function getStatus() {
+        req = new XMLHttpRequest();
+        req.open('GET', 'api/getstatus', true);
+        req.onreadystatechange = ClientSideUpdate;
+        req.send();
+    }
 
-</div> <!-- /container -->
+    function ClientSideUpdate() {
+        var result;
+
+        if (req.readyState == 4) {
+            result = req.responseText;
+
+            console.log(result) //document.getElementById('gvEmployeeDetails').parentNode.innerHTML = result;
+        }
+    }
+
+    getStatus();
+    setInterval(getStatus, 1000);
+</script>
 {% endblock %}

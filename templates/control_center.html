@@ -7,6 +7,10 @@
         <h1>Scratbot Control Center</h1>
         <p>Hello</p>
     </div>
+    
+   	<div class="alert alert-success" role="alert" id="status_div">
+        Dummy status message
+ 	</div>
 
     {% if error %}
     <div class="alert alert-danger" role="alert">
@@ -33,7 +37,8 @@
                 <div class="input-group">
                     <input type="text" class="form-control" aria-label="...">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default">Forward</button>
+                        <button type="button" class="btn btn-default"
+                            id="move_button">Forward</button>
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
@@ -123,9 +128,35 @@
         if (req.readyState == 4) {
             result = req.responseText;
 
-            console.log(result) //document.getElementById('gvEmployeeDetails').parentNode.innerHTML = result;
+            var statuses = JSON.parse(result)["statuses"];
+            
+            console.log(result + "\n" + "Statuses: " + statuses);
+            
+            if (statuses != null) {
+                var status_div = document.getElementById("status_div");
+                status_div.style.visibility="visible";
+                if (statuses[statuses.length - 1].reason == 0) {
+                    status_div.setAttribute('class', "alert alert-success");
+                    status_div.innerHTML = "Success!";
+                }
+                if (statuses[statuses.length - 1].reason == 1) {
+                    status_div.setAttribute('class', "alert alert-danger");
+                    status_div.innerHTML = "Aborted!";
+                }
+            }
         }
     }
+
+    function SendMoveForward() {
+        var do_move = new XMLHttpRequest();
+        do_move.open('POST', 'api/moveforward');
+        do_move.send();
+    }
+
+    window.onload = function() {
+        document.getElementById("status_div").style.visibility = "hidden";
+        document.getElementById("move_button").addEventListener('click', SendMoveForward);
+    };
 
     getStatus();
     setInterval(getStatus, 1000);

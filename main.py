@@ -5,7 +5,7 @@ import sys
 sys.path.append('PyRobot')
 from command import *
 from status import *
-from receiver import DebugReceiver
+from receiver import DebugReceiver, FifoReceiver
 from sender import DebugSender
 
 app = Flask(__name__)
@@ -22,6 +22,7 @@ def control_center():
 @app.route('/api/getstatus')
 def get_status():
     statuses = []
+    myreceiver.receive() #Poll for data on serial port or FIFO
     while myreceiver.isNewStatusAvailable():
         s = myreceiver.getStatus()
         statuses.append({
@@ -32,7 +33,14 @@ def get_status():
                          })
     return jsonify(statuses=statuses if statuses else None)
 
-@app.before_request
+#TODO: Parameters and stuff
+@app.route('/api/moveforward', methods=['POST'])
+def move_foward():
+    if request.method == 'POST':
+        mysender.sendCommand(MoveForwardCommand())
+    return ''
+
+#@app.before_request
 def csrf_protect():
     if request.method == "POST":
         token = session.pop('_csrf_token', None)
@@ -47,7 +55,7 @@ def generate_csrf_token():
 app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
 if __name__ == '__main__':
-  mysender = DebugSender
-  myreceiver = DebugReceiver(mysender)
+  mysender = DebugSender()
+  myreceiver = FifoReceiver(mysender, "receivefifo")
   app.debug = True
   app.run()

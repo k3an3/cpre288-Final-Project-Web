@@ -5,7 +5,7 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <h1>Scratbot Control Center</h1>
-        <p>Hello</p>
+        <p></p>
     </div>
 
    	<div class="alert alert-success" role="alert" id="status_div">
@@ -35,33 +35,19 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="input-group">
-                    <input id="move_distance" type="text" class="form-control" aria-label="...">
+                    <input id="move_distance" type="text" placeholder="200" class="form-control" aria-label="...">
                     <div class="input-group-btn">
-                        <button id="move_forward_button" placeholder="200" type="button" class="btn btn-default">Forward</button>
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                            <li><a href="#">Forward</a></li>
-                            <li><a href="#">Reverse</a></li>
-                        </ul>
+                        <button id="move_forward_button" type="button" class="btn btn-default">Forward</button>
+                        <button id="move_reverse_button" type="button" class="btn btn-default">Reverse</button>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="input-group">
-                    <input type="text" class="form-control" aria-label="...">
+                    <input id="rotate_degrees" type="text" placeholder="90" class="form-control" aria-label="...">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default">Clockwise</button>
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                            <li><a href="#">Clockwise</a></li>
-                            <li><a href="#">Counterclockwise</a></li>
-                        </ul>
+                        <button id="rotate_clockwise_button" type="button" class="btn btn-default">Clockwise</button>
+                        <button id="rotate_counterclockwise_button" type="button" class="btn btn-default">CounterCW</button>
                     </div>
                 </div>
             </div>
@@ -154,9 +140,33 @@
         do_move.send(params);
     }
 
+    function SendMoveReverse() {
+        var do_move = new XMLHttpRequest();
+        var params = "distance=" + document.getElementById("move_distance").value;
+        do_move.open('POST', 'api/movereverse');
+        do_move.send(params);
+    }
+
+    function SendRotateClockwise() {
+        var do_move = new XMLHttpRequest();
+        var params = "degrees=" + document.getElementById("rotate_degrees").value;
+        do_move.open('POST', 'api/rotateclockwise');
+        do_move.send(params);
+    }
+
+    function SendRotateCounterclockwise() {
+        var do_move = new XMLHttpRequest();
+        var params = "degrees=" + document.getElementById("rotate_degrees").value;
+        do_move.open('POST', 'api/rotatecounterclockwise');
+        do_move.send(params);
+    }
+
     window.onload = function() {
         document.getElementById("status_div").style.visibility = "hidden";
         document.getElementById("move_forward_button").addEventListener('click', SendMoveForward);
+        document.getElementById("move_reverse_button").addEventListener('click', SendMoveReverse);
+        document.getElementById("rotate_clockwise_button").addEventListener('click', SendRotateClockwise);
+        document.getElementById("rotate_counterclockwise_button").addEventListener('click', SendRotateCounterclockwise);
     };
 
     getStatus();

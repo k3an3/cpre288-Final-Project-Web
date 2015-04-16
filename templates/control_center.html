@@ -7,7 +7,7 @@
         <h1>Scratbot Control Center</h1>
         <p>Hello</p>
     </div>
-    
+
    	<div class="alert alert-success" role="alert" id="status_div">
         Dummy status message
  	</div>
@@ -35,10 +35,9 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="input-group">
-                    <input type="text" class="form-control" aria-label="...">
+                    <input id="move_distance" type="text" class="form-control" aria-label="...">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default"
-                            id="move_button">Forward</button>
+                        <button id="move_forward_button" placeholder="200" type="button" class="btn btn-default">Forward</button>
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
@@ -129,19 +128,20 @@
             result = req.responseText;
 
             var statuses = JSON.parse(result)["statuses"];
-            
+
             console.log(result + "\n" + "Statuses: " + statuses);
-            
+
             if (statuses != null) {
                 var status_div = document.getElementById("status_div");
                 status_div.style.visibility="visible";
-                if (statuses[statuses.length - 1].reason == 0) {
+                var current_status = statuses[statuses.length - 1];
+                if (current_status.code == 0) {
                     status_div.setAttribute('class', "alert alert-success");
                     status_div.innerHTML = "Success!";
                 }
-                if (statuses[statuses.length - 1].reason == 1) {
+                if (current_status.code == 1) {
                     status_div.setAttribute('class', "alert alert-danger");
-                    status_div.innerHTML = "Aborted!";
+                    status_div.innerHTML = "Aborted! " + current_status.string;
                 }
             }
         }
@@ -149,13 +149,14 @@
 
     function SendMoveForward() {
         var do_move = new XMLHttpRequest();
+        var params = "distance=" + document.getElementById("move_distance").value;
         do_move.open('POST', 'api/moveforward');
-        do_move.send();
+        do_move.send(params);
     }
 
     window.onload = function() {
         document.getElementById("status_div").style.visibility = "hidden";
-        document.getElementById("move_button").addEventListener('click', SendMoveForward);
+        document.getElementById("move_forward_button").addEventListener('click', SendMoveForward);
     };
 
     getStatus();

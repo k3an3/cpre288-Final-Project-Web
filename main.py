@@ -28,7 +28,7 @@ def get_status():
         print s.distance_actually_moved
         statuses.append({
                          'id' : s.command.command_id,
-                         'result' : s.distance_actually_moved,
+                         'result' : s.actualResultString(),
                          'code' : s.abort_reason,
                          'string' : s.abortReasonString(),
                          })

@@ -12,22 +12,6 @@
         Dummy status message
  	</div>
 
-    {% if error %}
-    <div class="alert alert-danger" role="alert">
-        <strong>Oh snap!</strong> {{ error }}
-    </div>
-    {% elif success %}
-    <div class="alert alert-success" role="alert">
-        <strong>Well done!</strong> You successfully read this important alert message.
-    </div>
-    {% elif message %}
-    <div class="alert alert-info" role="alert">
-        <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
-    </div>
-    {% else %}
-    <br>
-    <br>
-    {% endif %}
     <div class="page-header">
         <h1>Controls</h1>
     </div>
@@ -118,11 +102,11 @@
                 var current_status = statuses[statuses.length - 1];
                 if (current_status.code == 0) {
                     status_div.setAttribute('class', "alert alert-success");
-                    status_div.innerHTML = "Success!";
+                    status_div.innerHTML = "<strong>Success! </strong>" + current_status.result ;
                 }
-                if (current_status.code != 0) {
+                else {
                     status_div.setAttribute('class', "alert alert-danger");
-                    status_div.innerHTML = "Aborted! " + current_status.string;
+                    status_div.innerHTML = "<strong>Aborted!</strong> " + current_status.string + current_status.result;
                 }
             }
         }

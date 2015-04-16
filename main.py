@@ -25,13 +25,19 @@ def get_status():
     myreceiver.receive() #Poll for data on serial port or FIFO
     while myreceiver.isNewStatusAvailable():
         s = myreceiver.getStatus()
-        print s.distance_actually_moved
-        statuses.append({
-                         'id' : s.command.command_id,
-                         'result' : s.actualResultString(),
-                         'code' : s.abort_reason,
-                         'string' : s.abortReasonString(),
-                         })
+        if not s.isDataStatus:
+            statuses.append({
+                             'id' : s.command.command_id,
+                             'result' : s.actualResultString(),
+                             'code' : s.abort_reason,
+                             'string' : s.abortReasonString(),
+                             })
+        elif isinstance(s, ScanDataStatus):
+            statuses.append({
+                            'id' : s.command.command_id,
+                            'angle' : s.angle,
+                            'distance' : s.distance,
+                            'size' : s.size})
     return jsonify(statuses=statuses if statuses else None)
 
 #TODO: Parameters and stuff

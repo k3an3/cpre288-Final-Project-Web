@@ -37,7 +37,7 @@ def get_status():
 @app.route('/api/moveforward', methods=['POST'])
 def move_foward():
     if request.method == 'POST':
-        distance = request.data.split("=")[1]
+        distance = int(request.data.split("=")[1])
         distance = distance if distance and distance > 0 and distance < 5000 else 200
         print distance
         mysender.sendCommand(MoveForwardCommand(distance))
@@ -46,7 +46,7 @@ def move_foward():
 @app.route('/api/movereverse', methods=['POST'])
 def move_reverse():
     if request.method == 'POST':
-        distance = request.data.split("=")[1]
+        distance = int(request.data.split("=")[1])
         distance = distance if distance and distance > 0 and distance < 5000 else 200
         print distance
         mysender.sendCommand(MoveReverseCommand(distance))
@@ -55,7 +55,7 @@ def move_reverse():
 @app.route('/api/rotateclockwise', methods=['POST'])
 def rotate_clockwise():
     if request.method == 'POST':
-        degrees = request.data.split("=")[1]
+        degrees = int(request.data.split("=")[1])
         degrees = degrees if degrees and degrees > 0 and degrees <= 360 else 90
         print degrees
         mysender.sendCommand(RotateClockwiseCommand(degrees))
@@ -64,7 +64,7 @@ def rotate_clockwise():
 @app.route('/api/rotatecounterclockwise', methods=['POST'])
 def rotate_counterclockwise():
     if request.method == 'POST':
-        degrees = request.data.split("=")[1]
+        degrees = int(request.data.split("=")[1])
         degrees = degrees if degrees and degrees > 0 and degrees <= 360 else 90
         print degrees
         mysender.sendCommand(RotateCounterclockwiseCommand(degrees))

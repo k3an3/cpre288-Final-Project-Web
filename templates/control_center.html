@@ -52,13 +52,8 @@
                 </div>
             </div>
              <p>
-        <button type="button" class="btn btn-default">Default</button>
-        <button type="button" class="btn btn-primary">Primary</button>
-        <button type="button" class="btn btn-success">Success</button>
-        <button type="button" class="btn btn-info">Info</button>
-        <button type="button" class="btn btn-warning">Warning</button>
-        <button type="button" class="btn btn-danger">Danger</button>
-        <button type="button" class="btn btn-link">Link</button>
+        <button id="scan_button" type="button" class="btn btn-primary">Scan</button>
+        <button id="kill_button" type="button" class="btn btn-danger">Kill</button>
       </p>
         </div>
     </form>
@@ -161,12 +156,26 @@
         do_move.send(params);
     }
 
+     function SendScan() {
+        var do_move = new XMLHttpRequest();
+        do_move.open('POST', 'api/sendscan');
+        do_move.send();
+    }
+
+     function SendKill() {
+        var do_move = new XMLHttpRequest();
+        do_move.open('POST', 'api/sendkill');
+        do_move.send();
+    }
+
     window.onload = function() {
         document.getElementById("status_div").style.visibility = "hidden";
         document.getElementById("move_forward_button").addEventListener('click', SendMoveForward);
         document.getElementById("move_reverse_button").addEventListener('click', SendMoveReverse);
         document.getElementById("rotate_clockwise_button").addEventListener('click', SendRotateClockwise);
         document.getElementById("rotate_counterclockwise_button").addEventListener('click', SendRotateCounterclockwise);
+        document.getElementById("scan_button").addEventListener('click', SendScan);
+        document.getElementById("kill_button").addEventListener('click', SendKill);
     };
 
     getStatus();

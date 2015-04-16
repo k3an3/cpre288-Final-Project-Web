@@ -1,4 +1,3 @@
-from peewee import *
 import datetime
 
 db = SqliteDatabase('database.db', threadlocals=True)

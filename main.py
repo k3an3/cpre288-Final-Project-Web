@@ -1,13 +1,12 @@
 from flask import Flask, render_template, request, jsonify
-from models import db, Result, Object, Robot
 import sys
 import serial
 
 sys.path.append('PyRobot')
 from command import *
 from status import *
-from receiver import DebugReceiver, FifoReceiver
-from sender import DebugSender
+from receiver import * 
+from sender import *
 
 app = Flask(__name__)
 global myreceiver
@@ -27,7 +26,7 @@ def get_status():
     while myreceiver.isNewStatusAvailable():
         s = myreceiver.getStatus()
         statuses.append({
-                         'type' :FifoReceiver(mysender, "receivefifo") type(s).__name__,
+                         'type' : 'stupid',
                          'id' : s.command.command_id,
                          'actual' : s.distance_actually_moved,
                          'code' : s.abort_reason,
@@ -45,7 +44,7 @@ def move_foward():
     return ''
 
 #@app.before_request
-def csrf_protect():FifoReceiver(mysender, "receivefifo")
+def csrf_protect():
     if request.method == "POST":
         token = session.pop('_csrf_token', None)
         if not token or token != request.form.get('_csrf_token'):
@@ -59,8 +58,8 @@ def generate_csrf_token():
 app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
 if __name__ == '__main__':
-  ser = serial.Serial('/dev/rfcomm0', 38400, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_TWO)
-  mysender = PySerialSender()
-  myreceiver = PySerialReciever(mysender)
+  ser = serial.Serial('/dev/rfcomm0', 38400, timeout=0, writeTimeout=0)
+  mysender = PySerialSender(ser)
+  myreceiver = PySerialReceiver(mysender, ser)
   app.debug = True
-  app.run()
+  app.run(host='0.0.0.0')

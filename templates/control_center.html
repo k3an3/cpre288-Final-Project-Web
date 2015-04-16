@@ -139,7 +139,7 @@
                     status_div.setAttribute('class', "alert alert-success");
                     status_div.innerHTML = "Success!";
                 }
-                if (current_status.code == 1) {
+                if (current_status.code != 0) {
                     status_div.setAttribute('class', "alert alert-danger");
                     status_div.innerHTML = "Aborted! " + current_status.string;
                 }

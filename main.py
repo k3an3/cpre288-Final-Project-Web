@@ -70,6 +70,12 @@ def rotate_counterclockwise():
         mysender.sendCommand(RotateCounterclockwiseCommand(degrees))
     return ''
 
+@app.route('/api/sendscan', methods=['POST'])
+def begin_scan():
+    if request.method == 'POST':
+        mysender.sendCommand(BeginScanCommand())
+    return ''
+
 #@app.before_request
 def csrf_protect():
     if request.method == "POST":

@@ -30,8 +30,8 @@
                 <div class="input-group">
                     <input id="rotate_degrees" type="text" placeholder="90" class="form-control" aria-label="...">
                     <div class="input-group-btn">
-                        <button id="rotate_clockwise_button" type="button" class="btn btn-default">Clockwise</button>
                         <button id="rotate_counterclockwise_button" type="button" class="btn btn-default">CounterCW</button>
+                        <button id="rotate_clockwise_button" type="button" class="btn btn-default">Clockwise</button>
                     </div>
                 </div>
             </div>
@@ -95,18 +95,18 @@
                         console.log('asdf');
                         if (statuses[key].code == 0) {
                             status_div.setAttribute('class', "alert alert-success");
-                            status_div.innerHTML = "<strong>Success! </strong>" + statuses[key].result;
+                            status_div.innerHTML = "<strong>Success!</strong> " + statuses[key].result + ".";
                         }
                         else {
                             status_div.setAttribute('class', "alert alert-danger");
-                            status_div.innerHTML = "<strong>Aborted!</strong> " + statuses[key].string + statuses[key].result;
+                            status_div.innerHTML = "<strong>Aborted!</strong> " + statuses[key].string + ". " + statuses[key].result + ".";
                         }
                     } else if (statuses[key].type == 'scan_result') {
                         var table = document.getElementById("obstacle_table");
                         var status_div = document.getElementById("status_div");
                         status_div.style.visibility="visible";
                         status_div.setAttribute('class', "alert alert-info");
-                        status_div.innerHTML = "<strong>Done!</strong> Scan found " + statuses.length + " obstacles";
+                        status_div.innerHTML = "<strong>Done!</strong> Scan found " + statuses.length + " obstacles.";
                         var row = table.insertRow(-1);
                         var c1 = row.insertCell(0);
                         var c2 = row.insertCell(1);

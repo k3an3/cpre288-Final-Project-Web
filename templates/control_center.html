@@ -127,7 +127,7 @@
             var scan_results = JSON.parse(result)["scan_results"];
 
             if (statuses != null) {
-                $("#obstacle_table tr").remove();
+                $("tbody").html("");
                 drawBoard();
                 var status_div = document.getElementById("status_div");
                 status_div.style.visibility="visible";
@@ -142,7 +142,7 @@
                             status_div.innerHTML = "<strong>Aborted!</strong> " + statuses[key].string + ". " + statuses[key].result + ".";
                         }
                     } else if (statuses[key].type == 'scan_result') {
-                        var table = document.getElementById("obstacle_table");
+                        var table = document.getElementById("obstacle_table").tBodies[0];
                         var status_div = document.getElementById("status_div");
                         status_div.style.visibility="visible";
                         status_div.setAttribute('class', "alert alert-info");

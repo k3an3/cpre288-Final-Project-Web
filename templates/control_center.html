@@ -117,21 +117,6 @@
                     }
                 }
             }
-
-            if (scan_results != null) {
-                var table = document.getElementById("obstacle_table");
-                var status_div = document.getElementById("status_div");
-                status_div.style.visibility="visible";
-                status_div.setAttribute('class', "alert alert-info");
-                status_div.innerHTML = "<strong>Done!</strong> Scan found " + scan_results.length + " obstacles";
-                var row = table.insertRow(-1);
-                var c1 = row.insertCell(0);
-                var c2 = row.insertCell(1);
-                var c3 = row.insertCell(2);
-                c1.innerHTML = scan_results[0].angle;
-                c2.innerHTML = scan_results[0].distance;
-                c3.innerHTML = scan_results[0].size;
-            }
         }
     }
 

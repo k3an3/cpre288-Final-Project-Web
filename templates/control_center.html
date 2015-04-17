@@ -81,6 +81,7 @@
     var context = canvas.get(0).getContext("2d");
 
     function drawBoard(){
+        context.clearRect(0,0, cw, ch);
         for (var x = 0; x <= bw; x += 40) {
             context.moveTo(0.5 + x + p, p);
             context.lineTo(0.5 + x + p, bh + p);
@@ -126,6 +127,8 @@
             var scan_results = JSON.parse(result)["scan_results"];
 
             if (statuses != null) {
+                $("#obstacle_table tr").remove();
+                drawBoard();
                 var status_div = document.getElementById("status_div");
                 status_div.style.visibility="visible";
                 for (key in statuses) {

@@ -27,6 +27,7 @@ def get_status():
         s = myreceiver.getStatus()
         if not s.isDataStatus:
             statuses.append({
+                             'type' : 'status',
                              'id' : s.command.command_id,
                              'result' : s.actualResultString(),
                              'code' : s.abort_reason,
@@ -34,11 +35,13 @@ def get_status():
                              })
         elif isinstance(s, ScanDataStatus):
             statuses.append({
+                            'type' : 'scan_result',
                             'id' : s.command.command_id,
                             'angle' : s.angle,
                             'distance' : s.distance,
-                            'size' : s.size})
-    return jsonify(statuses=statuses if statuses else None)
+                            'size' : s.size
+                            })
+    return jsonify(statuses=statuses) if statuses else ''
 
 #TODO: Parameters and stuff
 @app.route('/api/moveforward', methods=['POST'])

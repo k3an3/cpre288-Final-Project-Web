@@ -46,24 +46,16 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <table class="table table-striped">
+            <table id="obstacle_table" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Time</th>
-                        <th>Text</th>
-                        <th>Result</th>
+                        <th>Angle</th>
+                        <th>Distance (cm)</th>
+                        <th>Width (cm)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in history_list %}
-                    <tr>
-                        <th>{{ item.time.strftime('%a %H:%M:%S')}}</th>
-                        <th>{{ item.name }}</th>
-                        <th><span class="label label-{% if item.label == 'error' %}danger">Error
-                            {% elif item.label == 'success' %}success">OK{% elif item.label == 'warning' %}warning">Event{% else %}info">Info{% endif %}
-                            </span>&nbsp;{{ item.value }}</th>
-                    </tr>
-                    {% endfor %}
+
                 </tbody>
             </table>
         </div>
@@ -93,21 +85,52 @@
             result = req.responseText;
 
             var statuses = JSON.parse(result)["statuses"];
-
-            console.log(result + "\n" + "Statuses: " + statuses);
+            var scan_results = JSON.parse(result)["scan_results"];
 
             if (statuses != null) {
                 var status_div = document.getElementById("status_div");
                 status_div.style.visibility="visible";
-                var current_status = statuses[statuses.length - 1];
-                if (current_status.code == 0) {
-                    status_div.setAttribute('class', "alert alert-success");
-                    status_div.innerHTML = "<strong>Success! </strong>" + current_status.result ;
+                for (key in statuses) {
+                    if (statuses[key].type == 'status') {
+                        console.log('asdf');
+                        if (statuses[key].code == 0) {
+                            status_div.setAttribute('class', "alert alert-success");
+                            status_div.innerHTML = "<strong>Success! </strong>" + statuses[key].result;
+                        }
+                        else {
+                            status_div.setAttribute('class', "alert alert-danger");
+                            status_div.innerHTML = "<strong>Aborted!</strong> " + statuses[key].string + statuses[key].result;
+                        }
+                    } else if (statuses[key].type == 'scan_result') {
+                        var table = document.getElementById("obstacle_table");
+                        var status_div = document.getElementById("status_div");
+                        status_div.style.visibility="visible";
+                        status_div.setAttribute('class', "alert alert-info");
+                        status_div.innerHTML = "<strong>Done!</strong> Scan found " + statuses.length + " obstacles";
+                        var row = table.insertRow(-1);
+                        var c1 = row.insertCell(0);
+                        var c2 = row.insertCell(1);
+                        var c3 = row.insertCell(2);
+                        c1.innerHTML = statuses[key].angle;
+                        c2.innerHTML = statuses[key].distance;
+                        c3.innerHTML = statuses[key].size;
+                    }
                 }
-                else {
-                    status_div.setAttribute('class', "alert alert-danger");
-                    status_div.innerHTML = "<strong>Aborted!</strong> " + current_status.string + current_status.result;
-                }
+            }
+
+            if (scan_results != null) {
+                var table = document.getElementById("obstacle_table");
+                var status_div = document.getElementById("status_div");
+                status_div.style.visibility="visible";
+                status_div.setAttribute('class', "alert alert-info");
+                status_div.innerHTML = "<strong>Done!</strong> Scan found " + scan_results.length + " obstacles";
+                var row = table.insertRow(-1);
+                var c1 = row.insertCell(0);
+                var c2 = row.insertCell(1);
+                var c3 = row.insertCell(2);
+                c1.innerHTML = scan_results[0].angle;
+                c2.innerHTML = scan_results[0].distance;
+                c3.innerHTML = scan_results[0].size;
             }
         }
     }

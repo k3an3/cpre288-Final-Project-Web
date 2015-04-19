@@ -87,7 +87,7 @@ def begin_scan():
     return ''
 
 @app.route('/api/playmusic', methods=['POST'])
-def begin_scan():
+def play_music():
     if request.method == 'POST':
         mysender.sendCommand(PlayMusicCommand())
     return ''

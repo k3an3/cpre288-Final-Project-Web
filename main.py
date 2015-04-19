@@ -34,13 +34,14 @@ def get_status():
                              'string' : s.abortReasonString(),
                              })
         elif isinstance(s, ScanDataStatus):
-            statuses.append({
-                            'type' : 'scan_result',
-                            'id' : s.command.command_id,
-                            'angle' : s.angle,
-                            'distance' : s.distance,
-                            'size' : s.size
-                            })
+            if s.size > 2:
+                statuses.append({
+                                'type' : 'scan_result',
+                                'id' : s.command.command_id,
+                                'angle' : s.angle,
+                                'distance' : s.distance,
+                                'size' : s.size
+                                })
     return jsonify(statuses=statuses) if statuses else ''
 
 #TODO: Parameters and stuff

@@ -107,6 +107,9 @@
         context.clearRect(0,0, cw, ch);
         context.strokeStyle = "black";
         context.stroke();
+        context.arc(p + bw / 2, bh + p, 10, 0, 2 * Math.PI);
+        context.fillStyle = "green";
+        context.fill()
     }
 
     drawBoard();
@@ -139,9 +142,10 @@
             var statuses = JSON.parse(result)["statuses"];
             var scan_results = JSON.parse(result)["scan_results"];
 
+            var scan = false;
+
             if (statuses != null) {
                 $("tbody").html("");
-                drawBoard();
                 var status_div = document.getElementById("status_div");
                 status_div.style.visibility="visible";
                 for (key in statuses) {
@@ -167,8 +171,7 @@
                         c1.innerHTML = statuses[key].angle;
                         c2.innerHTML = statuses[key].distance;
                         c3.innerHTML = statuses[key].size;
-                        if (statuses[key].size > 2)
-                            drawObstacle(statuses[key].angle, statuses[key].distance, statuses[key].size);
+                        drawObstacle(statuses[key].angle, statuses[key].distance, statuses[key].size);
                     }
                 }
             }
@@ -207,6 +210,7 @@
         var do_move = new XMLHttpRequest();
         do_move.open('POST', 'api/sendscan');
         do_move.send();
+        drawBoard();
     }
 
     function SendKill() {

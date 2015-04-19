@@ -37,6 +37,7 @@
             </div>
             <p>
                 <button id="scan_button" type="button" class="btn btn-primary">Scan</button>
+                <button id="music_button" type="button" class="btn btn-primary">Play Music</button>
                 <button id="kill_button" type="button" class="btn btn-danger">Kill</button>
             </p>
         </div>
@@ -166,7 +167,8 @@
                         c1.innerHTML = statuses[key].angle;
                         c2.innerHTML = statuses[key].distance;
                         c3.innerHTML = statuses[key].size;
-                        drawObstacle(statuses[key].angle, statuses[key].distance, statuses[key].size);
+                        if (statuses[key].size > 2)
+                            drawObstacle(statuses[key].angle, statuses[key].distance, statuses[key].size);
                     }
                 }
             }
@@ -210,6 +212,12 @@
     function SendKill() {
         var do_move = new XMLHttpRequest();
         do_move.open('POST', 'api/sendkill');
+        do_move.send();
+    }
+
+    function SendKill() {
+        var do_move = new XMLHttpRequest();
+        do_move.open('POST', 'api/playmusic');
         do_move.send();
     }
 

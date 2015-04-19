@@ -86,6 +86,12 @@ def begin_scan():
         mysender.sendCommand(BeginScanCommand())
     return ''
 
+@app.route('/api/playmusic', methods=['POST'])
+def begin_scan():
+    if request.method == 'POST':
+        mysender.sendCommand(PlayMusicCommand())
+    return ''
+
 #@app.before_request
 def csrf_protect():
     if request.method == "POST":

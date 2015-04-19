@@ -145,7 +145,6 @@
             var scan = false;
 
             if (statuses != null) {
-                $("tbody").html("");
                 var status_div = document.getElementById("status_div");
                 status_div.style.visibility="visible";
                 for (key in statuses) {
@@ -211,6 +210,7 @@
         do_move.open('POST', 'api/sendscan');
         do_move.send();
         drawBoard();
+        $("tbody").html("");
     }
 
     function SendKill() {

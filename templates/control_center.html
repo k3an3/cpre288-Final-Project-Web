@@ -59,8 +59,9 @@
                 </tbody>
             </table>
         </div>
-        <div id="grid" class="col-md-3">
-
+        <div id="outer_grid">
+            <div id="grid" class="col-md-3">
+            </div>
         </div>
     </div>
 </div>
@@ -81,6 +82,17 @@
     var context = canvas.get(0).getContext("2d");
 
     function drawBoard(){
+        /* Crazy hack to properly clear canvas */
+        var grid = document.getElementById("grid");
+        grid.parentNode.removeChild(grid);
+        var outer = document.getElementById("outer_grid");
+        var newdiv = document.createElement('grid');
+        newdiv.setAttribute('id', "grid");
+        outer.appendChild(newdiv);
+
+        canvas = $('<canvas/>').attr({width: cw, height: ch}).appendTo('#grid');
+        context = canvas.get(0).getContext("2d");
+
         context.clearRect(0,0, cw, ch);
         for (var x = 0; x <= bw; x += 40) {
             context.moveTo(0.5 + x + p, p);
@@ -91,7 +103,7 @@
             context.moveTo(p, 0.5 + x + p);
             context.lineTo(bw + p, 0.5 + x + p);
         }
-
+        context.clearRect(0,0, cw, ch);
         context.strokeStyle = "black";
         context.stroke();
     }

@@ -157,7 +157,7 @@
                             status_div.setAttribute('class', "alert alert-danger");
                             status_div.innerHTML = "<strong>Aborted!</strong> " + statuses[key].string + ". " + statuses[key].result + ".";
                         }
-                    } else if (statuses[key].type == 'scan_result' && statuses[key].size => 2) {
+                    } else if (statuses[key].type == 'scan_result' && statuses[key].size >= 2) {
                         var table = document.getElementById("obstacle_table").tBodies[0];
                         var status_div = document.getElementById("status_div");
                         status_div.style.visibility="visible";

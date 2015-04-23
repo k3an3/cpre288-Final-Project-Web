@@ -76,7 +76,9 @@ def rotate_counterclockwise():
 @app.route('/api/sendscan', methods=['POST'])
 def begin_scan():
     if request.method == 'POST':
-        mysender.sendCommand(BeginScanCommand())
+        max_distance = num(request.data.split("=")[1])
+        max_distance = max_distance if max_distance > 0 and max_distance < 250 else 100
+        mysender.sendCommand(BeginScanCommand(max_distance))
     return ''
 
 @app.route('/api/playmusic', methods=['POST'])

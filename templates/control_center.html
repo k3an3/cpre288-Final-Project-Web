@@ -36,6 +36,7 @@
                 </div>
             </div>
             <p>
+                <input id="scan_max_distance" type="text" placeholder="100" class="form-control" aria-label="...">
                 <button id="scan_button" type="button" class="btn btn-primary">Scan</button>
                 <button id="music_button" type="button" class="btn btn-primary">Play Music</button>
                 <button id="kill_button" type="button" class="btn btn-danger">Kill</button>
@@ -212,6 +213,7 @@
 
     function SendScan() {
         var do_move = new XMLHttpRequest();
+        var params = document.getElementById("scan_max_distance").value
         do_move.open('POST', 'api/sendscan');
         do_move.send();
         drawBoard();

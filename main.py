@@ -93,6 +93,13 @@ def play_music():
         mysender.sendCommand(PlayMusicCommand())
     return ''
 
+@app.route('/api/pollsensors', methods=['POST'])
+def poll_sensors():
+    if request.method == 'POST':
+        mysender.sendCommand(PollSensorCommand())
+    return ''
+
+
 def num(s):
     try:
         return int(s)

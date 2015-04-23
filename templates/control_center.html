@@ -38,6 +38,7 @@
                 </div>
             </div>
             <p>
+                <button id="poll_sensors" type="button" class="btn btn-primary">Sensors</button>
                 <button id="music_button" type="button" class="btn btn-primary">Play Music</button>
                 <button id="kill_button" type="button" class="btn btn-danger">Kill</button>
             </p>
@@ -242,6 +243,12 @@
     function SendMusic() {
         var do_move = new XMLHttpRequest();
         do_move.open('POST', 'api/playmusic');
+        do_move.send();
+    }
+
+    function PollSensors() {
+        var do_move = new XMLHttpRequest();
+        do_move.open('POST', 'api/pollsensors');
         do_move.send();
     }
 

@@ -50,9 +50,6 @@
                     </ul>
                 </div>
             </div>
-            <p>
-                <button id="kill_button" type="button" class="btn btn-danger">Kill</button>
-            </p>
         </div>
     </form>
     <div class="page-header">
@@ -245,12 +242,6 @@
         $("tbody").html("");
     }
 
-    function SendKill() {
-        var do_move = new XMLHttpRequest();
-        do_move.open('POST', 'api/sendkill');
-        do_move.send();
-    }
-
     function SendMusic0() {
         var do_move = new XMLHttpRequest();
         do_move.open('POST', 'api/playmusic/0');
@@ -283,7 +274,6 @@
         document.getElementById("rotate_clockwise_button").addEventListener('click', SendRotateClockwise);
         document.getElementById("rotate_counterclockwise_button").addEventListener('click', SendRotateCounterclockwise);
         document.getElementById("scan_button").addEventListener('click', SendScan);
-        document.getElementById("kill_button").addEventListener('click', SendKill);
         document.getElementById("song1").addEventListener('click', SendMusic0);
         document.getElementById("song2").addEventListener('click', SendMusic1);
         document.getElementById("song3").addEventListener('click', SendMusic2);

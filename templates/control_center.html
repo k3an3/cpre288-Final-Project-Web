@@ -148,11 +148,11 @@
 
             var statuses = JSON.parse(result)["statuses"];
             var scan_results = JSON.parse(result)["scan_results"];
-            var status_length = statuses.length;
 
             var scan = false;
 
             if (statuses != null) {
+                var status_length = statuses.length;
                 var status_div = document.getElementById("status_div");
                 status_div.style.visibility="visible";
                 for (key in statuses) {
@@ -221,7 +221,7 @@
         var do_move = new XMLHttpRequest();
         var params = "max_distance=" + document.getElementById("scan_max_distance").value
         do_move.open('POST', 'api/sendscan');
-        do_move.send();
+        do_move.send(params);
         drawBoard();
         $("tbody").html("");
     }

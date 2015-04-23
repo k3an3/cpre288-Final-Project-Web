@@ -179,13 +179,13 @@
                             status_length--;
                         }
                     } else if (statuses[key].type == 'sensor_value') {
-                        var choices = [ 9, 11, 1, 3];
+                        var choices = [ "Left", "Front left", "Front right", "Right"];
                         var table = document.getElementById("obstacle_table").tBodies[0];
                         var row = table.insertRow(-1);
                         var c1 = row.insertCell(0);
                         var c2 = row.insertCell(1);
                         var c3 = row.insertCell(2);
-                        c1.innerHTML = choices[statuses[key].sensor] + " o'clock";
+                        c1.innerHTML = choices[statuses[key].sensor];
                         c2.innerHTML = statuses[key].value;
                         c3.innerHTML = "";
 
@@ -250,6 +250,7 @@
         var do_move = new XMLHttpRequest();
         do_move.open('POST', 'api/pollsensors');
         do_move.send();
+        $("tbody").html("");
     }
 
     window.onload = function() {

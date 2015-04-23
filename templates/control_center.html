@@ -2,12 +2,6 @@
 {% block body %}
 <div class="container theme-showcase" role="main">
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <h1>Scratbot Control Center</h1>
-        <p></p>
-    </div>
-
     <div class="alert alert-danger" role="alert" id="status_div">
         <strong>Error!</strong> This page requires javascript.
     </div>
@@ -78,7 +72,7 @@
     /* https://jsfiddle.net/h2yJn/66/ */
     //grid width and height
     var bw = 400;
-    var bh = 200;
+    var bh = 400;
     //padding around grid
     var p = 20;
     //size of canvas
@@ -89,7 +83,7 @@
 
     var context = canvas.get(0).getContext("2d");
 
-    function drawBoard(){
+    function drawBoard(range){
         /* Crazy hack to properly clear canvas */
         var grid = document.getElementById("grid");
         grid.parentNode.removeChild(grid);
@@ -119,7 +113,7 @@
         context.fill()
     }
 
-    drawBoard();
+    drawBoard(100);
 
     /* */
 
@@ -183,6 +177,18 @@
                         } else {
                             status_length--;
                         }
+                    } else if (statuses[key].type == 'sensor_value') {
+                        var choices = [ 9, 11, 1, 3];
+                        var table = document.getElementById("obstacle_table").tBodies[0];
+                        for (var i = status_length; i < 4; i++) {
+                            var row = table.insertRow(-1);
+                            var c1 = row.insertCell(0);
+                            var c2 = row.insertCell(1);
+                            var c3 = row.insertCell(2);
+                            c1.innerHTML = choices[i] + " o'clock";
+                            c2.innerHTML = statuses[key].value;
+                            c3.innerHTML = "";
+                        }
                     }
                 }
             }
@@ -219,10 +225,12 @@
 
     function SendScan() {
         var do_move = new XMLHttpRequest();
-        var params = "max_distance=" + document.getElementById("scan_max_distance").value
+        var value = document.getElementById("scan_max_distance").value;
+        value = value ? value : 100;
+        var params = "max_distance=" + value;
         do_move.open('POST', 'api/sendscan');
         do_move.send(params);
-        drawBoard();
+        drawBoard(value);
         $("tbody").html("");
     }
 

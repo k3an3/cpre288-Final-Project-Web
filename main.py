@@ -87,10 +87,10 @@ def begin_scan():
         mysender.sendCommand(BeginScanCommand(max_distance))
     return ''
 
-@app.route('/api/playmusic', methods=['POST'])
-def play_music():
+@app.route('/api/playmusic/<song_id>', methods=['POST'])
+def play_music(song_id):
     if request.method == 'POST':
-        mysender.sendCommand(PlayMusicCommand())
+        mysender.sendCommand(PlayMusicCommand(song_id))
     return ''
 
 @app.route('/api/pollsensors', methods=['POST'])

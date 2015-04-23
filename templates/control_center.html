@@ -37,9 +37,20 @@
                     </div>
                 </div>
             </div>
-            <p>
+            <div class="col-lg-2">
                 <button id="poll_sensors" type="button" class="btn btn-primary">Sensors</button>
-                <button id="music_button" type="button" class="btn btn-primary">Play Music</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        Music <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a id="song1" href="#">Mario Fail</a></li>
+                        <li><a id="song2" href="#">Song 2</a></li>
+                        <li><a id="song3" href="#">Song 3</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p>
                 <button id="kill_button" type="button" class="btn btn-danger">Kill</button>
             </p>
         </div>
@@ -240,9 +251,21 @@
         do_move.send();
     }
 
-    function SendMusic() {
+    function SendMusic0() {
         var do_move = new XMLHttpRequest();
-        do_move.open('POST', 'api/playmusic');
+        do_move.open('POST', 'api/playmusic/0');
+        do_move.send();
+    }
+
+    function SendMusic1() {
+        var do_move = new XMLHttpRequest();
+        do_move.open('POST', 'api/playmusic/1');
+        do_move.send();
+    }
+
+    function SendMusic2() {
+        var do_move = new XMLHttpRequest();
+        do_move.open('POST', 'api/playmusic/2');
         do_move.send();
     }
 
@@ -261,7 +284,9 @@
         document.getElementById("rotate_counterclockwise_button").addEventListener('click', SendRotateCounterclockwise);
         document.getElementById("scan_button").addEventListener('click', SendScan);
         document.getElementById("kill_button").addEventListener('click', SendKill);
-        document.getElementById("music_button").addEventListener('click', SendMusic);
+        document.getElementById("song1").addEventListener('click', SendMusic0);
+        document.getElementById("song2").addEventListener('click', SendMusic1);
+        document.getElementById("song3").addEventListener('click', SendMusic2);
         document.getElementById("poll_sensors").addEventListener('click', PollSensors);
     };
 

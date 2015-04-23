@@ -14,9 +14,6 @@ global mysender
 
 @app.route('/', methods=['POST', 'GET'])
 def control_center():
-  if request.method == 'POST':
-    if not ser.isOpen():
-      error = "The serial connection is not established"
   return render_template('control_center.html', **locals())
 
 @app.route('/api/getstatus')
@@ -49,7 +46,6 @@ def move_foward():
     if request.method == 'POST':
         distance = num(request.data.split("=")[1])
         distance = distance if distance and distance > 0 and distance < 5000 else 200
-        print distance
         mysender.sendCommand(MoveForwardCommand(distance))
     return ''
 
@@ -58,7 +54,6 @@ def move_reverse():
     if request.method == 'POST':
         distance = num(request.data.split("=")[1])
         distance = distance if distance and distance > 0 and distance < 5000 else 200
-        print distance
         mysender.sendCommand(MoveReverseCommand(distance))
     return ''
 
@@ -67,7 +62,6 @@ def rotate_clockwise():
     if request.method == 'POST':
         degrees = num(request.data.split("=")[1])
         degrees = degrees if degrees and degrees > 0 and degrees <= 360 else 90
-        print degrees
         mysender.sendCommand(RotateClockwiseCommand(degrees))
     return ''
 
@@ -76,7 +70,6 @@ def rotate_counterclockwise():
     if request.method == 'POST':
         degrees = num(request.data.split("=")[1])
         degrees = degrees if degrees and degrees > 0 and degrees <= 360 else 90
-        print degrees
         mysender.sendCommand(RotateCounterclockwiseCommand(degrees))
     return ''
 
@@ -91,18 +84,6 @@ def play_music():
     if request.method == 'POST':
         mysender.sendCommand(PlayMusicCommand())
     return ''
-
-#@app.before_request
-def csrf_protect():
-    if request.method == "POST":
-        token = session.pop('_csrf_token', None)
-        if not token or token != request.form.get('_csrf_token'):
-            abort(403)
-
-def generate_csrf_token():
-    if '_csrf_token' not in session:
-        session['_csrf_token'] = some_random_string()
-    return session['_csrf_token']
 
 def num(s):
     try:

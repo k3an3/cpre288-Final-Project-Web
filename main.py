@@ -38,7 +38,7 @@ def get_status():
                              'distance' : s.distance,
                              'size' : s.size
                              })
-    return jsonify(statuses=statuses) if statuses else ''
+    return jsonify(statuses=statuses) if statuses else "{}"
 
 #TODO: Parameters and stuff
 @app.route('/api/moveforward', methods=['POST'])

@@ -38,6 +38,12 @@ def get_status():
                              'distance' : s.distance,
                              'size' : s.size
                              })
+        elif isinstance(s, PollSensorStatus):
+            statuses.append({
+                             'type' : 'sensor_value',
+                             'sensor' : s.sensor,
+                             'value' : s.value,
+                            })
     return jsonify(statuses=statuses) if statuses else "{}"
 
 #TODO: Parameters and stuff
